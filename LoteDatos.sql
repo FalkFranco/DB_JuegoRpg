@@ -2,6 +2,7 @@ USE bd_juego_g9
 
 INSERT INTO tiendas(nombre,cant_slots) VALUES ('Tienda1',10);
 INSERT INTO tiendas(nombre,cant_slots) VALUES ('Tienda2',10);
+INSERT INTO tiendas(nombre,cant_slots) VALUES ('Tienda3',2);
 
 INSERT INTO inventarios(cant_slots) VALUES (10);
 INSERT INTO inventarios(cant_slots) VALUES (12);

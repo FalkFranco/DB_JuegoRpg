@@ -34,7 +34,8 @@ CREATE TABLE cuentas
   contra VARCHAR(100) NOT NULL,
   ip_usuario VARCHAR(100) NOT NULL,
   CONSTRAINT PK_cuentas PRIMARY KEY (id_usuario),
-  CONSTRAINT UQ_nombre_usuario UNIQUE (nombre_usuario)
+  CONSTRAINT UQ_nombre_usuario UNIQUE (nombre_usuario),
+  CONSTRAINT CK_PassValidate CHECK (contra like '%[0-9]%' and contra like '%[A-Z]%' and contra like '%[!@#$%a^&*()-_+=.,;:"`~]%' and len(contra) >= 8)
 );
 
 CREATE TABLE mapas
@@ -91,8 +92,15 @@ CREATE TABLE tiendas_items
   cantidad INT NOT NULL,
   CONSTRAINT PK_tiendas_items PRIMARY KEY (id_tienda, id_item),
   CONSTRAINT FK_tiendas_items_tiendas FOREIGN KEY (id_tienda) REFERENCES tiendas(id_tienda),
-  CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
+  CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item),
 );
+ALTER TABLE[dbo].[tiendas_items]
+DROP CONSTRAINT CK_slotLibreTienda
+-- CK para controlar si estan llenos los slots de tienda
+ALTER TABLE [dbo].[tiendas_items]
+ADD CONSTRAINT CK_slotLibreTienda CHECK (dbo.ComprobarSlots(id_tienda) > -1 )
+
+select dbo.ComprobarSlots(3)
 
 CREATE TABLE mapas_npcs
 (
