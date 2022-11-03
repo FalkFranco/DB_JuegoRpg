@@ -6,6 +6,7 @@ INSERT INTO tiendas(nombre,cant_slots) VALUES ('Tienda3',2);
 
 INSERT INTO inventarios(cant_slots) VALUES (10);
 INSERT INTO inventarios(cant_slots) VALUES (12);
+INSERT INTO inventarios(cant_slots) VALUES (10);
 
 
 INSERT INTO cuentas(nombre_usuario,contra,ip_usuario) VALUES ('user1','pass123','192.168.0.1');
@@ -64,12 +65,36 @@ INSERT INTO inventarios_items(id_inventario,id_item,slot,cantidad) VALUES(2,4,3,
 
 INSERT INTO personajes(id_usuario,nombre_personaje,id_clase,id_inventario) VALUES (1,'PersonajeMago',1,1);
 INSERT INTO personajes(id_usuario,nombre_personaje,id_clase,id_inventario) VALUES (1,'PersonajeGuerrero',2,2);
+INSERT INTO personajes(id_usuario,nombre_personaje,id_clase,id_inventario) VALUES (2,'PersonajeArquero',3,3);
+
+--delete from personajes
+-- where id_usuario = 2 
+
+-- select * from personajes
 
 INSERT INTO mapas_personajes(id_usuario,id_personaje,id_mapa, coord_x, coord_y) VALUES (1,1,1,100,100);
 
 --Estadisticas Personajes
 INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,3,240,50,70,100);
 INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,100,100,25);
+
+--Estadisticas por Default
+--Mago
+	--Fuerza 25
+	--Agilidad 50
+	--Magia 100
+INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,25,50,100);
+--Guerrero
+	--Fuerza 100
+	--Agilidad 50
+	--Magia 0
+INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,100,50,0);
+--Arquero
+	--Fuerza 50
+	--Agilidad 100
+	--Magia 0
+INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,50,100,0);
+
 --Estadisticas Npc boss
 INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (1000,35,3400,200,300,200);
 
@@ -80,8 +105,11 @@ INSERT INTO estadisticas_item(fuerza,agilidad,magia,req_fuerza,req_agilidad,req_
 INSERT INTO estadisticas_item(fuerza,agilidad,magia,req_fuerza,req_agilidad,req_magia,req_clase,req_nivel,poder_defensa,poder_ataque,poder_magico) VALUES (100,20,0,200,50,0,2,0,5,50,100); --'Arco Echizado'
 
 INSERT INTO personaje_estadistica(id_usuario,id_personaje,id_estadistica,oro,mana) VALUES (1,1,1,300,150);
-INSERT INTO personaje_estadistica(id_usuario,id_personaje,id_estadistica,oro,mana) VALUES (1,2,1,100,100);
+INSERT INTO personaje_estadistica(id_usuario,id_personaje,id_estadistica,oro,mana) VALUES (1,2,2,100,100);
 
+UPDATE personaje_estadistica
+  SET id_estadistica=2
+  WHERE id_usuario =1 and id_personaje = 2
 
 INSERT INTO npcs_estadistica(id_npc,id_estadistica) VALUES  (4,3)
 
