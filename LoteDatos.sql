@@ -28,7 +28,11 @@ INSERT INTO npcs_tipos(nombre_tipo) VALUES ('Boss');
 INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (1,'Juan', 1)
 INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (2,'Elena', 1)
 INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (1,'Eduardo', 1)
-INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (1,'Spider', 1)
+INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (3,'Spider', 0)
+--UPDATE npcs
+--  SET id_tipo = 3
+--	SET estatico = 0
+--  WHERE id_npc = 4 
 
 INSERT INTO categorias(titulo_categoria,descripcion) VALUES ('Espada','Descripcion Espada...');
 INSERT INTO categorias(titulo_categoria,descripcion) VALUES ('Escudo','Descripcion Escudo...');

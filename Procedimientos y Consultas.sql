@@ -176,3 +176,23 @@ IF (SELECT id_estadistica FROM estadisticas WHERE id_estadistica=(SELECT max(id_
 
 
 SELECT * FROM estadisticas WHERE id_estadistica=(SELECT max(id_estadistica) FROM estadisticas);
+
+
+GO
+CREATE VIEW npcsView
+AS 
+SELECT np.id_npc, tp.nombre_tipo,np.nombre_npc, np.estatico
+FROM npcs np
+INNER JOIN npcs_tipos tp
+ON np.id_tipo = tp.id_tipo
+
+GO
+
+Select * from npcsView
+go 
+
+CREATE VIEW npcsBoss
+AS
+Select * from npcsView where nombre_tipo = 'Boss'
+GO
+
