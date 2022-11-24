@@ -1,8 +1,18 @@
 --CREATE DATABASE bd_juego_g9
 --DROP DATABASE bd_juego_g9
 
---USE bd_juego_g9
+USE bd_juego_g9
 
+--Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
+CREATE OR ALTER FUNCTION ComprobarSlots(@Idt as int)
+RETURNS int
+AS 
+BEGIN
+   DECLARE @retval int
+   SELECT @retval = (SELECT cant_slots FROM tiendas where id_tienda = @Idt) - (SELECT COUNT(*) FROM ArticulosEnTiendas WHERE ArticulosEnTiendas.idTienda = @Idt)
+   RETURN @retval
+END;
+GO
 
 CREATE TABLE tiendas
 (
@@ -27,6 +37,9 @@ CREATE TABLE inventarios
   CONSTRAINT PK_inventarios PRIMARY KEY (id_inventario)
 );
 
+ALTER TABLE inventarios
+ADD DEFAULT 10 for cant_slots;
+
 CREATE TABLE cuentas
 (
   id_usuario int IDENTITY NOT NULL,
@@ -34,9 +47,12 @@ CREATE TABLE cuentas
   contra VARCHAR(100) NOT NULL,
   ip_usuario VARCHAR(100) NOT NULL,
   CONSTRAINT PK_cuentas PRIMARY KEY (id_usuario),
-  CONSTRAINT UQ_nombre_usuario UNIQUE (nombre_usuario),
-  CONSTRAINT CK_PassValidate CHECK (contra like '%[0-9]%' and contra like '%[A-Z]%' and contra like '%[!@#$%a^&*()-_+=.,;:"`~]%' and len(contra) >= 8)
+  CONSTRAINT UQ_nombre_usuario UNIQUE (nombre_usuario)
 );
+ALTER TABLE cuentas
+ADD estado BIT NOT NULL DEFAULT 1
+ALTER TABLE cuentas
+ADD url_img_perfil VARCHAR NOT NULL DEFAULT 'url'
 
 CREATE TABLE mapas
 (
@@ -92,15 +108,13 @@ CREATE TABLE tiendas_items
   cantidad INT NOT NULL,
   CONSTRAINT PK_tiendas_items PRIMARY KEY (id_tienda, id_item),
   CONSTRAINT FK_tiendas_items_tiendas FOREIGN KEY (id_tienda) REFERENCES tiendas(id_tienda),
-  CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item),
+  CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
 );
-ALTER TABLE[dbo].[tiendas_items]
-DROP CONSTRAINT CK_slotLibreTienda
--- CK para controlar si estan llenos los slots de tienda
+
+--Crear el procediminto antes de ejecutar el Alter Table
+
 ALTER TABLE [dbo].[tiendas_items]
 ADD CONSTRAINT CK_slotLibreTienda CHECK (dbo.ComprobarSlots(id_tienda) > -1 )
-
-select dbo.ComprobarSlots(3)
 
 CREATE TABLE mapas_npcs
 (
@@ -138,6 +152,13 @@ CREATE TABLE personajes
   CONSTRAINT FK_personajes_inventarios FOREIGN KEY (id_inventario) REFERENCES inventarios(id_inventario)
 );
 
+ALTER TABLE personajes
+ADD estado_online BIT NOT NULL DEFAULT 1
+
+ALTER TABLE personajes
+ADD item INT NOT NULL DEFAULT 1
+
+
 CREATE TABLE mapas_personajes
 (
   id_usuario INT NOT NULL,
@@ -161,6 +182,10 @@ CREATE TABLE estadisticas
   magia INT NOT NULL,
   CONSTRAINT PK_Estadisticas PRIMARY KEY (id_estadistica),
 )
+
+ALTER TABLE estadisticas
+ADD CONSTRAINT CK_NivelMax CHECK(nivel <= 100)
+
 
 CREATE TABLE estadisticas_item
 (

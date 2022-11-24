@@ -13,6 +13,8 @@ INSERT INTO cuentas(nombre_usuario,contra,ip_usuario) VALUES ('user1','pass123',
 INSERT INTO cuentas(nombre_usuario,contra,ip_usuario) VALUES ('user2','pass123','192.168.0.2');
 INSERT INTO cuentas(nombre_usuario,contra,ip_usuario) VALUES ('user3','pass123','192.168.0.3');
 INSERT INTO cuentas(nombre_usuario,contra,ip_usuario) VALUES ('user4','pass123','192.168.0.4');
+--inserto una cuenta NO activa, para probar vista de cuentas NO activas
+INSERT INTO cuentas(nombre_usuario,contra,ip_usuario,estado) VALUES('user5','pass123','192.168.0.1', 0)
 
 INSERT INTO mapas(nombre_mapa,tamanio_x,tamanio_y) VALUES ('Inicio', 1080, 1080);
 INSERT INTO mapas(nombre_mapa,tamanio_x,tamanio_y) VALUES ('Final', 1080, 1080);
@@ -29,10 +31,10 @@ INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (1,'Juan', 1)
 INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (2,'Elena', 1)
 INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (1,'Eduardo', 1)
 INSERT INTO npcs(id_tipo,nombre_npc,estatico) VALUES (3,'Spider', 0)
---UPDATE npcs
---  SET id_tipo = 3
---	SET estatico = 0
---  WHERE id_npc = 4 
+
+UPDATE npcs
+	SET  id_tipo = 3, estatico = 0
+	WHERE id_npc=4 
 
 INSERT INTO categorias(titulo_categoria,descripcion) VALUES ('Espada','Descripcion Espada...');
 INSERT INTO categorias(titulo_categoria,descripcion) VALUES ('Escudo','Descripcion Escudo...');
